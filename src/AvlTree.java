@@ -18,11 +18,13 @@ import java.util.*;
 // Throws UnderflowException as appropriate
 
 /**
+ * Homework 6, Summer 2018
+ * Alex Smith
  * Implements an AVL tree.
  * Note that all "matching" is based on the compareTo method.
  * @author Mark Allen Weiss
  */
-public class AvlTree<AnyType extends Comparable<? super AnyType>> 
+public class AvlTree<AnyType extends Comparable<? super AnyType>>
 {
     private static class AvlNode<AnyType>
     {
@@ -181,7 +183,7 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>>
             if( height( t.right.right ) >= height( t.right.left ) )
                 t = rotateWithRightChild( t );
             else
-                t = doubleWithRightChild( t );
+                t = doubleWithRightChild( t );                                //HERE
 
         t.height = Math.max( height( t.left ), height( t.right ) ) + 1;
         return t;
@@ -335,8 +337,12 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>>
     }
 
     /******************** YOU CODE HERE - do not change signatures *************/
-    //TODO rotateWithRightChild
+
+    /**
+     * Single rotates with right child
+     */
  	private AvlNode<AnyType> rotateWithRightChild(AvlNode<AnyType> k2){
+
         AvlNode<AnyType> k1 = k2.right;
         k2.right = k1.left;
         k1.left = k2;
@@ -344,16 +350,40 @@ public class AvlTree<AnyType extends Comparable<? super AnyType>>
         k1.height = Math.max( height( k1.right ), k2.height ) + 1;
         return k1;
  	}
-
- 	//TODO doubleWithRightChild
+    /**
+     * Double rotates with right child
+     */
  	private AvlNode<AnyType> doubleWithRightChild(AvlNode<AnyType> k2){
         k2.right = rotateWithLeftChild( k2.right );
         return rotateWithRightChild( k2 );
  	}
+    /**
+     * Double rotates with right child without calling
+     * another method.
+     */
+ 	private AvlNode<AnyType> doubleWithRightChildVersion2(AvlNode<AnyType> k1){
 
- 	//TODO doubleWithRightChildVersion2
- 	private AvlNode<AnyType> doubleWithRightChildVersion2(AvlNode<AnyType> k2){
- 	    return null;
+        AvlNode<AnyType> k3 = k1.right;
+        AvlNode<AnyType> k2 = k3.left;
+
+        //rotate with left
+        k3.left = k2.right;
+        k2.right = k3;
+        //root == k2
+        k3.height = Math.max( height( k3.left ), height( k3.right ) ) + 1;
+        k2.height = Math.max( height( k2.left ), k3.height ) + 1;
+
+
+        //rotate with right
+        //root == k1
+
+        k1.right = k2.left;
+        k2.left = k1;
+
+        k1.height = Math.max( height( k1.right ), height( k1.left ) ) + 1;
+        k2.height = Math.max( height( k2.right ), k1.height ) + 1;
+
+        return k2;
  	}
 
     /**

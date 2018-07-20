@@ -1,3 +1,8 @@
+/**
+ * Homework 6, Summer 2018
+ * Alex Smith
+ * Throws underflow exception
+ */
 public class UnderflowException extends Exception {
 
 	/* to send in a specific error message */
